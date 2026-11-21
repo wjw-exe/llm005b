@@ -1,0 +1,25 @@
+# 权重与语料不入 git 历史，走 Release 附件 / 本地下载
+ckpt/
+checkpoints/
+data/
+logs/
+model_50m_instruct/
+web/
+
+# 权重与二进制
+*.npz
+*.safetensors
+*.bin
+*.gguf
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# 编辑器与系统
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini

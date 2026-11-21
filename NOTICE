@@ -1,0 +1,51 @@
+# NOTICE
+
+本仓库包含自研代码、自训权重，以及与之相关的第三方资源说明。分发与再使用时请一并阅读。
+
+## 1. 自研部分（MIT）
+
+以下内容由本项目作者从零实现，按 MIT 许可发布：
+
+- 全部手写算子与反向传播（`ops.py`、`model.py`）
+- 训练循环与优化器（`train.py`）、数值梯度校验（`grad_check.py`）
+- byte-level BPE 分词器训练代码与产物（`bp/bpe.py`、`bp/tokenizer.json`）
+- 纯 numpy 推理引擎（`inf/minigpt_numpy.py`、`inf/safetensors_lite.py`）
+- 数据处理与自检工具（`prepare.py`、`tools/`）
+- 自训权重 `final.npz`（Release 附件，46.15M 参数 / 400 步 / loss 6.12）
+
+## 2. 训练数据（不随本仓库分发）
+
+本仓库**不包含任何原始训练语料**。`tools/download_corpus.py` 仅为下载整理脚本，语料由使用者自行获取。自训权重由下列公开数据集整理出的对话语料训练而成：
+
+| 数据集 | 上游许可 | 备注 |
+| --- | --- | --- |
+| `databricks/databricks-dolly-15k` | CC BY-SA 3.0 | 需署名并以相同方式共享 |
+| `tatsu-lab/alpaca` | Apache-2.0 | |
+| `shibing624/alpaca-zh` | Apache-2.0 | |
+| `shibing624/sharegpt_gpt4` | 见上游说明 | 含使用限制，商用前请自行确认 |
+
+说明：
+
+- 上述许可约束的是**原始数据**。本项目不再分发数据本体。
+- 但对「由这些数据训练出的权重」的下游使用，若涉及商用或再分发，建议使用者自行评估上游条款（尤其是含有使用限制的 `sharegpt_gpt4`）。
+- 本项目不对使用者获取、使用上述数据集的合规性作任何担保。
+
+## 3. 外部模型（不随本仓库分发）
+
+`inf/instruct_chat.py` 用于加载外部指令模型以验证推理引擎正确性：
+
+- `hayder86al/tinystories-50m-instruct`，MIT 许可，49.44M 参数（vocab 8000 / ctx 1024 / 6 层 / 12 头 / d_model 768）
+- 权重不随本仓库分发，请从其官方页面获取并遵守其许可
+- 该模型仅具备英文短文叙述能力，词表不含 CJK，无中文与算术能力
+
+## 4. 第三方服务
+
+`inf/translate_api.py` 可选地调用 MyMemory 公共翻译 API（`api.mymemory.translated.net`）做中英桥接：
+
+- 该服务有匿名调用配额限制，可用性、隐私与合规性由该服务方负责
+- 本项目不保证其可用，也不对其返回内容负责
+- 不使用该功能时，删除或忽略 `inf/translate_api.py` 即可，核心训练与推理不依赖它
+
+## 5. 免责声明
+
+本项目为工程与学习用途的技术实现，自训模型训练量极小（400 步 / 约 82 万 tokens），输出质量不具备实用价值。作者不对模型输出的准确性、合法性、适用性作任何承诺。

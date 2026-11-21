@@ -1,0 +1,10 @@
+{
+  "vocab_size": 16000,
+  "d_model": 512,
+  "n_layer": 12,
+  "n_head": 8,
+  "ffn_dim": 2048,
+  "ctx": 256,
+  "tied": true,
+  "dropout": 0.0
+}
